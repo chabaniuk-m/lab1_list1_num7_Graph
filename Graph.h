@@ -41,6 +41,24 @@ public:
 	//чи зв'язний граф
 	bool isConnected() const;
 	bool isTree() const;
+	auto connectivityComponents() const -> size_t
+	{
+		std::vector<bool> isVisited(m_vertex.size(), false);
+		size_t count{ 0 };
+		//перебираємо усі компоненти зв'язності
+		for (index_t i = 0; i < isVisited.size(); ++i)
+		{
+			if (isVisited[i] == false)
+			{
+				isVisited[i] = true;
+				std::cout << "Компонента зв'язності " << ++count << ": " << m_vertex[i].getData();
+				passDepth(isVisited, i);
+				std::cout << "\n";
+			}
+		}
+
+		return count;
+	}
 	void showAdjancencyMatrix() const;
 
 private:

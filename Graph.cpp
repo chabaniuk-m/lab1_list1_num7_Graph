@@ -158,7 +158,7 @@ void Graph::passInWidth() const
 {
 	if (!isConnected())
 	{
-		std::cout << "Граф не зв'язний! Неможливо здійснити обхід у ширину\n";
+		std::cout << "Граф не зв'язний! Неможливо здійснити обхід у ширину.\n";
 		return;
 	}
 	std::vector< std::vector<index_t> > currentStage;

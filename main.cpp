@@ -75,6 +75,8 @@ void test2()
 	graph.passInDepth();
 	std::cout << "Обхід у ширину:\n";
 	graph.passInWidth();
+	std::cout << "Компоненти зв'язності\n";
+	graph.connectivityComponents();
 }
 void test3()
 {
@@ -124,6 +126,8 @@ void test4()
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
+	std::cout << "Компоненти зв'язності\n";
+	graph.connectivityComponents();
 }
 void test5()
 {
@@ -170,5 +174,4 @@ void test6()
 int main()
 {
 	SetConsoleOutputCP(1251);
-	test1();
 }
