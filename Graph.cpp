@@ -130,3 +130,20 @@ void Graph::passInDepth() const
 		}
 	}
 }
+
+//чи зв'язний граф
+
+bool Graph::isConnected() const
+{
+	std::vector<bool> isVisited(m_vertex.size(), false);
+
+	passDepth(isVisited, 0, false);
+
+	for (bool i : isVisited)
+	{
+		if (i == false)
+			return false;
+	}
+
+	return true;
+}

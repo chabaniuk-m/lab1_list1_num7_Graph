@@ -30,26 +30,78 @@ public:
 	void addVertex(Vertex&& vertex);
 	void addEdge(index_t idx1, index_t idx2, weight_t weight = 1);
 	void showAdjancencyMatrix() const;
-	auto kruskal() const ->adj_t;
+	auto kruskal() const->adj_t;
 	void show() const;
 	auto getVerteces() const ->vertex_t { return m_vertex; }
 	//обхід у глибину
 	void passInDepth() const;
-	//чи зв'язний граф
-	bool isConnected() const
+	void passInWidth() const
 	{
-		std::vector<bool> isVisited(m_vertex.size(), false);
-
-		passDepth(isVisited, 0, false);
-
-		for (bool i : isVisited)
+		if (!isConnected())
 		{
-			if (i == false)
-				return false;
+			std::cout << "Граф не зв'язний! Неможливо здійснити обхід у ширину\n";
+			return;
 		}
+		std::vector< std::vector<index_t> > currentStage;
+		std::vector<index_t> previousStage;
+		std::vector<bool> isVisited(m_vertex.size(), false);
+		previousStage.push_back(0);								//починаємо з першої вершини
+		isVisited[0] = true;
+		currentStage.push_back(previousStage);
+		bool empty;
+		//лямбда для визначення чи пустий масив currentStage
+		auto isEmpty{ [](const std::vector< std::vector<index_t> >& passStage) {
+				for (std::vector<index_t> i : passStage)
+				{
+					if (i.size() > 0)
+						return false;
+				}
 
-		return true;
+				return true; } };
+		do
+		{
+			//виводимо всі вершини суміжні з попередніми
+			{
+				bool isOutput = false;
+				for (auto& k : currentStage)
+				{
+					if (k.empty())
+						continue;
+					if (!isOutput)
+					{
+						std::cout << m_vertex[k[0]].getData();
+						isOutput = true;
+						for (size_t i = 1; i < k.size(); i++)
+							std::cout << " - " << m_vertex[k[i]].getData();
+					}
+					else
+						for (size_t i = 0; i < k.size(); i++)
+							std::cout << " - " << m_vertex[k[i]].getData();
+				}
+				std::cout << "\n";
+			}
+			//записуємо список нових суміжних вершин
+			{
+				for (auto& i : currentStage)
+				{
+					for (auto& j : i)
+					{
+						previousStage.push_back(j);
+					}
+				}
+				currentStage.clear();
+				for (auto& i : previousStage)
+				{
+					currentStage.push_back(getRelatives(i, isVisited));
+				}
+			}
+
+			empty = isEmpty(currentStage);
+		}
+		while (!empty);
 	}
+	//чи зв'язний граф
+	bool isConnected() const;
 
 private:
 	//обхід компоненти зв'язності з виводом на екран або без
@@ -71,7 +123,7 @@ private:
 			}
 		}
 	}
-	//прибираємо все що нижче головної діагоналі
+	//~~~прибираємо все що нижче головної діагоналі~~~
 	auto getSimpleAdj() const -> adj_t
 	{
 		adj_t simpleAdj;
@@ -90,7 +142,7 @@ private:
 
 		return simpleAdj;
 	}
-	//виводимо двовиміний вектор
+	//~~~виводимо двовиміний вектор~~~
 	auto showMatrix(const adj_t& matrix) const -> void
 	{
 		for (std::vector<weight_t> i : matrix)
@@ -101,5 +153,32 @@ private:
 			}
 			std::cout << "\n";
 		}
+	}
+	//непройдені вершини суміжні з А, відмічає їх як пройдені
+	auto getRelatives(index_t i, std::vector<bool>& isVisited) const->std::vector<index_t>
+	{
+		std::vector<index_t> relatives;
+		for (index_t j = 0; j < isVisited.size(); j++)
+		{
+			if (m_adjacency[i][j] != 0 && isVisited[j] == false)
+			{
+				isVisited[j] = true;
+				relatives.push_back(j);
+			}
+		}
+
+		return relatives;
+	}
+	//в двовимірному векторі відсутні вершини
+	//previousStage
+	bool isEmpty(std::vector< std::vector<index_t> > v)
+	{
+		for (auto& i : v)
+		{
+			if (i.size() > 0)
+				return false;
+		}
+
+		return true;
 	}
 };

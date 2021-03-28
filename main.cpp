@@ -35,6 +35,8 @@ void test1()
 	graph.showAdjancencyMatrix();
 	std::cout << "Обхід у глибину:\n";
 	graph.passInDepth();
+	std::cout << "Обхід у ширину:\n";
+	graph.passInWidth();
 	std::cout << "Кістякове дерево мінімальної ваги (алгоритм Крускала):\n";
 	Graph(graph.kruskal(), graph.getVerteces()).show();
 }
@@ -70,6 +72,8 @@ void test2()
 	std::cout << isconected;
 	std::cout << "Обхід у глибину:\n";
 	graph.passInDepth();
+	std::cout << "Обхід у ширину:\n";
+	graph.passInWidth();
 }
 void test3()
 {
@@ -92,6 +96,8 @@ void test3()
 	std::cout << "Граф зв'язний? ";
 	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
 	std::cout << isconected;
+	std::cout << "Обхід у ширину:\n";
+	graph.passInWidth();
 }
 void test4()
 {
@@ -152,5 +158,5 @@ int main()
 	graph.show();
 	Graph(graph.kruskal(), graph.getVerteces()).show();
 	graph.passInDepth();*/
-	test5();
+	test3();
 }
