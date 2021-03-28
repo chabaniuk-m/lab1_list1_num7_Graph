@@ -112,3 +112,21 @@ void Graph::show() const
 		}
 	}
 }
+
+//обхід у глибину
+
+void Graph::passInDepth() const
+{
+	std::vector<bool> isVisited(m_vertex.size(), false);
+	//перебираємо усі компоненти зв'язності
+	for (index_t i = 0; i < isVisited.size(); ++i)
+	{
+		if (isVisited[i] == false)
+		{
+			isVisited[i] = true;
+			std::cout << m_vertex[i].getData();
+			passDepth(isVisited, i);
+			std::cout << "\n";
+		}
+	}
+}

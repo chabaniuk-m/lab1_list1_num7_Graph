@@ -28,6 +28,9 @@ void test1()
 	}
 	std::cout << "Зв'язки кожної вершини з іншими:\n";
 	graph.show();
+	std::cout << "Граф зв'язний? ";
+	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
+	std::cout << isconected;
 	std::cout << "Матриця суміжності:\n";
 	graph.showAdjancencyMatrix();
 	std::cout << "Обхід у глибину:\n";
@@ -62,6 +65,9 @@ void test2()
 		graph.addEdge(9, 10);
 	}
 	graph.show();
+	std::cout << "Граф зв'язний? ";
+	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
+	std::cout << isconected;
 	std::cout << "Обхід у глибину:\n";
 	graph.passInDepth();
 }
@@ -83,43 +89,53 @@ void test3()
 		graph.addEdge(3, 0);
 	}
 	graph.show();
+	std::cout << "Граф зв'язний? ";
+	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
+	std::cout << isconected;
 }
 void test4()
 {
 	//пошук найменшого циклу
-	Graph graph1;
+	Graph graph;
 	{
-		graph1.addVertex(Vertex('A'));	// index - 0
-		graph1.addVertex(Vertex('B'));	// index - 1
-		graph1.addVertex(Vertex('C'));	// index - 2
-		graph1.addVertex(Vertex('D'));	// index - 3
-		graph1.addVertex(Vertex('E'));	// index - 4
-		graph1.addVertex(Vertex('F'));	// index - 5
-		graph1.addVertex(Vertex('G'));	// index - 6
-		graph1.addEdge(0, 2);
-		graph1.addEdge(2, 1);
-		graph1.addEdge(2, 3);
-		graph1.addEdge(2, 5);
-		graph1.addEdge(1, 4);
-		graph1.addEdge(1, 3);
-		graph1.addEdge(3, 5);
-		graph1.addEdge(4, 5);
+		graph.addVertex(Vertex('A'));	// index - 0
+		graph.addVertex(Vertex('B'));	// index - 1
+		graph.addVertex(Vertex('C'));	// index - 2
+		graph.addVertex(Vertex('D'));	// index - 3
+		graph.addVertex(Vertex('E'));	// index - 4
+		graph.addVertex(Vertex('F'));	// index - 5
+		graph.addVertex(Vertex('G'));	// index - 6
+		graph.addEdge(0, 2);
+		graph.addEdge(2, 1);
+		graph.addEdge(2, 3);
+		graph.addEdge(2, 5);
+		graph.addEdge(1, 4);
+		graph.addEdge(1, 3);
+		graph.addEdge(3, 5);
+		graph.addEdge(4, 5);
 	}
-	std::cout << "Зв'язки кожної вершини з іншими\n";
-	
-	Graph graph2;
-	{
-		graph2.addVertex(Vertex('A'));	// index - 0
-		graph2.addVertex(Vertex('B'));	// index - 1
-		graph2.addVertex(Vertex('C'));	// index - 2
-		graph2.addVertex(Vertex('D'));	// index - 3
-		graph2.addEdge(0, 1);
-		graph2.addEdge(1, 3);
-		graph2.addEdge(3, 2);
-		graph2.addEdge(2, 0);
-	}
-
+	std::cout << "Граф зв'язний? ";
+	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
+	std::cout << isconected;
 }
+void test5()
+{
+	Graph graph;
+	{
+		graph.addVertex(Vertex('A'));	// index - 0
+		graph.addVertex(Vertex('B'));	// index - 1
+		graph.addVertex(Vertex('C'));	// index - 2
+		graph.addVertex(Vertex('D'));	// index - 3
+		graph.addEdge(0, 1);
+		graph.addEdge(1, 3);
+		graph.addEdge(3, 2);
+		graph.addEdge(2, 0);
+	}
+	std::cout << "Граф зв'язний? ";
+	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
+	std::cout << isconected;
+}
+
 int main()
 {
 	SetConsoleOutputCP(1251);
@@ -136,5 +152,5 @@ int main()
 	graph.show();
 	Graph(graph.kruskal(), graph.getVerteces()).show();
 	graph.passInDepth();*/
-	test2();
+	test5();
 }

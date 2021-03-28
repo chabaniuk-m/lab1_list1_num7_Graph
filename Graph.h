@@ -34,37 +34,40 @@ public:
 	void show() const;
 	auto getVerteces() const ->vertex_t { return m_vertex; }
 	//обхід у глибину
-	void passInDepth() const
+	void passInDepth() const;
+	//чи зв'язний граф
+	bool isConnected() const
 	{
 		std::vector<bool> isVisited(m_vertex.size(), false);
-		//перебираємо усі компоненти зв'язності
-		for (index_t i = 0; i < isVisited.size(); ++i)
+
+		passDepth(isVisited, 0, false);
+
+		for (bool i : isVisited)
 		{
-			if (isVisited[i] == false)
-			{
-				isVisited[i] = true;
-				std::cout << m_vertex[i].getData();
-				passDepth(isVisited, i);
-				std::cout << "\n";
-			}
+			if (i == false)
+				return false;
 		}
+
+		return true;
 	}
-	//граф буде зв'язним якщо з довільної вершини можна дістатися до всіх інших
-	//тобто можна використати модифікований passInDepth()
-	//або написати метод пошуку к-сті компонент зв'язності
-	bool isConnected() const;
 
 private:
-	//обхід компоненти зв'язності
-	void passDepth(std::vector<bool>& isVisited, index_t i) const
+	//обхід компоненти зв'язності з виводом на екран або без
+	void passDepth(std::vector<bool>& isVisited, index_t i, bool isOutput = true) const
 	{
 		for (index_t j = 0; j < isVisited.size(); ++j)
 		{
 			if (m_adjacency[i][j] != 0 && isVisited[j] == false)
 			{
-				std::cout << " - " << m_vertex[j].getData();
 				isVisited[j] = true;
-				passDepth(isVisited, j);
+
+				if (isOutput)
+				{
+					std::cout << " - " << m_vertex[j].getData();
+					passDepth(isVisited, j);
+				}
+				else
+					passDepth(isVisited, j, false);
 			}
 		}
 	}
