@@ -28,9 +28,10 @@ void test1()
 	}
 	std::cout << "Зв'язки кожної вершини з іншими:\n";
 	graph.show();
-	std::cout << "Граф зв'язний? ";
-	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
-	std::cout << isconected;
+	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
+	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
+	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
+	std::cout << "Чи є граф деревом? " << ((graph.isTree()) ? "Так\n" : "Ні\n");
 	std::cout << "Матриця суміжності:\n";
 	graph.showAdjancencyMatrix();
 	std::cout << "Обхід у глибину:\n";
@@ -67,9 +68,9 @@ void test2()
 		graph.addEdge(9, 10);
 	}
 	graph.show();
-	std::cout << "Граф зв'язний? ";
-	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
-	std::cout << isconected;
+	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
+	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
+	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
 	std::cout << "Обхід у глибину:\n";
 	graph.passInDepth();
 	std::cout << "Обхід у ширину:\n";
@@ -79,7 +80,6 @@ void test3()
 {
 	//знайти Ейлеровий цикл, якщо він є
 	Graph graph;
-	std::cout << "Зв'язки кожної вершини з іншими\n";
 	{
 		graph.addVertex(Vertex('A'));	// index - 0
 		graph.addVertex(Vertex('B'));	// index - 1
@@ -92,10 +92,11 @@ void test3()
 		graph.addEdge(1, 3);
 		graph.addEdge(3, 0);
 	}
+	std::cout << "Зв'язки кожної вершини з іншими\n";
 	graph.show();
-	std::cout << "Граф зв'язний? ";
-	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
-	std::cout << isconected;
+	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
+	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
+	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
 	std::cout << "Обхід у ширину:\n";
 	graph.passInWidth();
 }
@@ -120,9 +121,9 @@ void test4()
 		graph.addEdge(3, 5);
 		graph.addEdge(4, 5);
 	}
-	std::cout << "Граф зв'язний? ";
-	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
-	std::cout << isconected;
+	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
+	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
+	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
 }
 void test5()
 {
@@ -137,26 +138,37 @@ void test5()
 		graph.addEdge(3, 2);
 		graph.addEdge(2, 0);
 	}
-	std::cout << "Граф зв'язний? ";
-	std::string isconected = (graph.isConnected()) ? "Так\n" : "Ні\n";
-	std::cout << isconected;
+	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
+}
+void test6()
+{
+	Graph graph;
+	{
+		graph.addVertex(Vertex('A'));	// index - 0
+		graph.addVertex(Vertex('B'));	// index - 1
+		graph.addVertex(Vertex('C'));	// index - 2
+		graph.addVertex(Vertex('D'));	// index - 3
+		graph.addVertex(Vertex('E'));	// index - 4
+		graph.addVertex(Vertex('F'));	// index - 5
+		graph.addVertex(Vertex('G'));	// index - 6
+		graph.addVertex(Vertex('H'));	// index - 7
+		graph.addVertex(Vertex('I'));	// index - 8
+		graph.addEdge(0, 1);
+		graph.addEdge(0, 2);
+		graph.addEdge(0, 3);
+		graph.addEdge(1, 4);
+		graph.addEdge(1, 5);
+		graph.addEdge(2, 8);
+		graph.addEdge(3, 6);
+		graph.addEdge(3, 7);
+	}
+	std::cout << "Зв'язки кожної вершини з іншими\n";
+	graph.show();
+	std::cout << "Чи є граф деревом? " << ((graph.isTree()) ? "Так\n" : "Ні\n");
 }
 
 int main()
 {
 	SetConsoleOutputCP(1251);
-	/*Graph graph;
-	graph.addVertex(Vertex('A'));
-	graph.addVertex(Vertex('B'));
-	graph.addVertex(Vertex('C'));
-	graph.addVertex(Vertex('D'));
-	graph.addEdge(0, 1);
-	graph.addEdge(1, 2);
-	graph.addEdge(1, 2);
-	graph.addEdge(3, 0);
-	graph.showAdjancencyMatrix();
-	graph.show();
-	Graph(graph.kruskal(), graph.getVerteces()).show();
-	graph.passInDepth();*/
-	test3();
+	test1();
 }

@@ -26,6 +26,11 @@ void Graph::addEdge(index_t idx1, index_t idx2, weight_t weight)
 	m_adjacency[idx2][idx1] = weight;
 }
 
+auto Graph::getVertexNumber() const -> size_t
+{
+	return m_vertex.size();
+}
+
 void Graph::showAdjancencyMatrix() const
 {
 	std::cout << std::left << "   ";
@@ -47,6 +52,24 @@ void Graph::showAdjancencyMatrix() const
 		}
 		std::cout << "\n";
 	}
+}
+
+auto Graph::getEdgeNumber() const -> size_t
+{
+	adj_t v(getSimpleAdj());
+	size_t edgesNumber{ 0 };
+	for (size_t i = 0; i < v.size() - 1; i++)
+	{
+		for (size_t j = i + 1; j < v.size(); j++)
+		{
+			if (v[i][j] != 0)
+			{
+				++edgesNumber;
+			}
+		}
+	}
+
+	return edgesNumber;
 }
 
 // Повертає матрицю суміжності мінімального кістякового дерева
@@ -131,6 +154,71 @@ void Graph::passInDepth() const
 	}
 }
 
+void Graph::passInWidth() const
+{
+	if (!isConnected())
+	{
+		std::cout << "Граф не зв'язний! Неможливо здійснити обхід у ширину\n";
+		return;
+	}
+	std::vector< std::vector<index_t> > currentStage;
+	std::vector<index_t> previousStage;
+	std::vector<bool> isVisited(m_vertex.size(), false);
+	previousStage.push_back(0);								//починаємо з першої вершини
+	isVisited[0] = true;
+	currentStage.push_back(previousStage);
+	bool empty;
+	//лямбда для визначення чи пустий масив currentStage
+	auto isEmpty{ [](const std::vector< std::vector<index_t> >& passStage) {
+		for (std::vector<index_t> i : passStage)
+		{
+			if (i.size() > 0)
+				return false;
+		}
+
+		return true; } };
+	do
+	{
+		//виводимо всі вершини суміжні з попередніми
+		{
+			bool isOutput = false;
+			for (auto& k : currentStage)
+			{
+				if (k.empty())
+					continue;
+				if (!isOutput)
+				{
+					std::cout << m_vertex[k[0]].getData();
+					isOutput = true;
+					for (size_t i = 1; i < k.size(); i++)
+						std::cout << " - " << m_vertex[k[i]].getData();
+				}
+				else
+					for (size_t i = 0; i < k.size(); i++)
+						std::cout << " - " << m_vertex[k[i]].getData();
+			}
+			std::cout << "\n";
+		}
+		//записуємо список нових суміжних вершин
+		{
+			for (auto& i : currentStage)
+			{
+				for (auto& j : i)
+				{
+					previousStage.push_back(j);
+				}
+			}
+			currentStage.clear();
+			for (auto& i : previousStage)
+			{
+				currentStage.push_back(getRelatives(i, isVisited));
+			}
+		}
+
+		empty = isEmpty(currentStage);
+	} 		while (!empty);
+}
+
 //чи зв'язний граф
 
 bool Graph::isConnected() const
@@ -146,4 +234,10 @@ bool Graph::isConnected() const
 	}
 
 	return true;
+}
+
+bool Graph::isTree() const
+{
+	//скінченний зв'язний граф є деревом, тоді і тільки тоді, коли V - E = 1 (wikipedia)
+	return (getEdgeNumber()) == (getVertexNumber() - 1);
 }
