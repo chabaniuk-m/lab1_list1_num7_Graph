@@ -241,3 +241,46 @@ bool Graph::isTree() const
 	//скінченний зв'язний граф є деревом, тоді і тільки тоді, коли V - E = 1 (wikipedia)
 	return (getEdgeNumber()) == (getVertexNumber() - 1);
 }
+
+
+//чи є ациклічним
+
+bool Graph::isAcyclic() const
+{
+	std::vector<index_t> v;							//к-сть вершин в кожній компоненті зв'язності
+	std::vector<bool> isVisited(m_vertex.size(), false);
+
+
+	index_t temp{};
+	while ((temp = getNumConnected(isVisited)) != 0)
+	{
+		v.push_back(temp);
+	}
+
+	index_t edgesNumber{ 0 };
+	for (auto& i : v)
+	{
+		edgesNumber += i - 1;
+	}
+
+	return edgesNumber == getEdgeNumber();
+}
+
+auto Graph::connectivityComponents() const -> size_t
+{
+	std::vector<bool> isVisited(m_vertex.size(), false);
+	size_t count{ 0 };
+	//перебираємо усі компоненти зв'язності
+	for (index_t i = 0; i < isVisited.size(); ++i)
+	{
+		if (isVisited[i] == false)
+		{
+			isVisited[i] = true;
+			std::cout << "Компонента зв'язності " << ++count << ": " << m_vertex[i].getData();
+			passDepth(isVisited, i);
+			std::cout << "\n";
+		}
+	}
+
+	return count;
+}

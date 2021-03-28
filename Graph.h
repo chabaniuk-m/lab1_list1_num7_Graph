@@ -4,7 +4,7 @@
 
 class Vertex;
 using index_t = std::uint8_t;						//визначає макс к-сть вершин 
-using weight_t = std::uint32_t;
+using weight_t = std::uint16_t;
 using vertex_t = std::vector<Vertex>;
 using adj_t = std::vector < std::vector<weight_t> >;
 
@@ -31,9 +31,10 @@ public:
 	void addEdge(index_t idx1, index_t idx2, weight_t weight = 1);
 	auto getVertexNumber() const->size_t;
 	auto getEdgeNumber() const->size_t;
-	auto kruskal() const->adj_t;
 	void show() const;
 	auto getVerteces() const ->vertex_t { return m_vertex; }
+	//побудова кістякового дерева методом Крускала
+	auto kruskal() const->adj_t;
 	//обхід у глибину
 	void passInDepth() const;
 	//обхід у ширину
@@ -41,24 +42,10 @@ public:
 	//чи зв'язний граф
 	bool isConnected() const;
 	bool isTree() const;
-	auto connectivityComponents() const -> size_t
-	{
-		std::vector<bool> isVisited(m_vertex.size(), false);
-		size_t count{ 0 };
-		//перебираємо усі компоненти зв'язності
-		for (index_t i = 0; i < isVisited.size(); ++i)
-		{
-			if (isVisited[i] == false)
-			{
-				isVisited[i] = true;
-				std::cout << "Компонента зв'язності " << ++count << ": " << m_vertex[i].getData();
-				passDepth(isVisited, i);
-				std::cout << "\n";
-			}
-		}
-
-		return count;
-	}
+	//чи є ациклічним
+	bool isAcyclic() const;
+	//компоненти зв'язності
+	auto connectivityComponents() const->size_t;
 	void showAdjancencyMatrix() const;
 
 private:
@@ -126,5 +113,34 @@ private:
 		}
 
 		return relatives;
+	}
+	//підраховує к-сть зв'язаних вершин connected
+	void countConnected(std::vector<bool>& isVisited, index_t i, index_t& connected) const
+	{
+		//обхід у глибину
+		for (size_t j = 0; j < isVisited.size(); j++)
+		{
+			if (isVisited[j] == false && m_adjacency[i][j] != 0)
+			{
+				isVisited[j] = true;
+				++connected;
+				countConnected(isVisited, j, connected);
+			}
+		}
+	}
+	auto getNumConnected(std::vector<bool>& isVisited) const -> index_t
+	{
+		for (size_t i = 0; i < isVisited.size(); i++)
+		{
+			if (isVisited[i] == false)
+			{
+				isVisited[i] = true;
+				index_t connected{ 1 };
+				countConnected(isVisited, i, connected);
+				return connected;
+			}
+		}
+
+		return static_cast<index_t>(0);
 	}
 };

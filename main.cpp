@@ -31,6 +31,7 @@ void test1()
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
+	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
 	std::cout << "Чи є граф деревом? " << ((graph.isTree()) ? "Так\n" : "Ні\n");
 	std::cout << "Матриця суміжності:\n";
 	graph.showAdjancencyMatrix();
@@ -71,6 +72,7 @@ void test2()
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
+	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
 	std::cout << "Обхід у глибину:\n";
 	graph.passInDepth();
 	std::cout << "Обхід у ширину:\n";
@@ -99,6 +101,7 @@ void test3()
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
+	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
 	std::cout << "Обхід у ширину:\n";
 	graph.passInWidth();
 }
@@ -126,6 +129,7 @@ void test4()
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
+	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
 	std::cout << "Компоненти зв'язності\n";
 	graph.connectivityComponents();
 }
@@ -137,12 +141,15 @@ void test5()
 		graph.addVertex(Vertex('B'));	// index - 1
 		graph.addVertex(Vertex('C'));	// index - 2
 		graph.addVertex(Vertex('D'));	// index - 3
-		graph.addEdge(0, 1);
+		graph.addVertex(Vertex('E'));	// index - 4
+		graph.addVertex(Vertex('F'));	// index - 5
 		graph.addEdge(1, 3);
 		graph.addEdge(3, 2);
 		graph.addEdge(2, 0);
+		graph.addEdge(4, 5);
 	}
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
+	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
 }
 void test6()
 {
@@ -166,12 +173,12 @@ void test6()
 		graph.addEdge(3, 6);
 		graph.addEdge(3, 7);
 	}
-	std::cout << "Зв'язки кожної вершини з іншими\n";
-	graph.show();
+	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
 	std::cout << "Чи є граф деревом? " << ((graph.isTree()) ? "Так\n" : "Ні\n");
 }
 
 int main()
 {
 	SetConsoleOutputCP(1251);
+	test6();
 }
