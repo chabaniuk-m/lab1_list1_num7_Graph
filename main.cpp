@@ -46,7 +46,6 @@ void test2()
 {
 	//пошук компонент зв'язності
 	Graph graph;
-	std::cout << "Зв'язки кожної вершини з іншими\n";
 	{
 		graph.addVertex(Vertex('A'));	// index - 0
 		graph.addVertex(Vertex('B'));	// index - 1
@@ -68,6 +67,7 @@ void test2()
 		graph.addEdge(5, 7);
 		graph.addEdge(9, 10);
 	}
+	std::cout << "Зв'язки кожної вершини з іншими\n";
 	graph.show();
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
@@ -150,6 +150,10 @@ void test5()
 	}
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
 	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
+	for (auto& i : graph.connectivityComponents(1))
+	{
+		i.passInDepth();
+	}
 }
 void test6()
 {
@@ -180,5 +184,5 @@ void test6()
 int main()
 {
 	SetConsoleOutputCP(1251);
-	test6();
+	test5();
 }
