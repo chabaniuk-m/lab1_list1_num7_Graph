@@ -48,17 +48,16 @@ public:
 	//чи є ациклічним
 	bool isAcyclic() const;
 	//компоненти зв'язності
-	bool isPlanar(std::vector<Vertex>* v = nullptr) const
+	bool isPlanar(std::vector<Vertex> *badsub = nullptr) const
 	{
 		//розбити на компоненти зв'язності
-		auto subgraphs{ connectivityComponents(1) };
-		for (auto& subgraph : subgraphs)
+		for (auto& subgraph : connectivityComponents(1))
 		{
 			if (subgraph.m_vertex.size() >= 6)
 			{
 				for (auto& sub : subgraph.combinations<6>())
 				{
-					if (is_bipartity_3_3(sub))
+					if (sub.is_bipartity_3_3(badsub))
 						return false;
 				}
 			}
@@ -66,8 +65,11 @@ public:
 			{
 				for (auto& sub : subgraph.combinations<5>())
 				{
-					//if sub is full graph
-					//return false
+					if (sub.getEdgeNumber() == 10)
+					{
+						badsub = new std::vector<Vertex>(sub.m_vertex);
+						return false;
+					}
 				}
 			}
 		}
@@ -245,10 +247,91 @@ private:
 		return static_cast<index_t>(0);
 	}
 
-	template <std::size_t N>
-	std::vector< std::array<std::array<int, N>, N> > combinations(std::vector<Vertex>* v = nullptr) const
+	template <index_t N>
+	std::vector< Graph > combinations() const
 	{
+		std::array<int, N> arr;
+		std::vector< std::array<int, N> > verteces_combs;
+		struct Choose {
+			vertex_t vertex;
+			void comb(std::vector< std::array<int, N> >& verteces_combs, std::array<int, N>& arr, index_t arr_idx = 0, index_t vert_idx = 0)
+			{
+				if (arr_idx == N)
+				{
+					verteces_combs.push_back(arr);
+					return;
+				}
+				//поки к-сть вершин для вибору >= к-сть ячейок що залишилися в масиві
+				for (; vertex.size() - vert_idx >= N - arr_idx && vert_idx < vertex.size(); ++vert_idx)
+				{
+					arr[arr_idx] = vert_idx;
+					comb(verteces_combs, arr, arr_idx + 1, vert_idx + 1);
+				}
+			}
+		}choose;
+		choose.vertex = m_vertex;
+		choose.comb(verteces_combs, arr);
 
+		std::vector<Graph> subgraphs;
+		vertex_t verts;
+		adj_t adj(N, std::vector<weight_t>(N, 0));
+
+		for (auto& arr : verteces_combs)									 //перебираємо всі комбінації вершин
+		{
+			for (index_t j = 0, arr_j = 0; arr_j < N && j < m_vertex.size(); j++)
+			{
+				if (arr[arr_j] == j)
+				{
+					verts.push_back(m_vertex[j]);
+
+					for (index_t k = 0, arr_k = 0; arr_k < N && k < m_vertex.size(); k++)
+					{
+						if (arr[arr_k] == k)
+						{
+							adj[arr_j][arr_k] = m_adjacency[j][k];
+							arr_k++;
+						}
+					}
+					arr_j++;
+				}
+			}
+
+			subgraphs.push_back(Graph(adj, verts));
+		}
+
+		return subgraphs;
 	}
-	bool is_bipartity_3_3(const std::array < std::array<int, 6>, 6>& adj) const;
+
+	//temp
+	public:
+	bool is_bipartity_3_3(std::vector<Vertex>* badsub = nullptr) const
+	{
+		if (m_vertex.size() != 6 || getEdgeNumber() != 9) return false;
+
+		//кожній вершині інцидентні 3 ребра
+		std::array<bool, 6> isVisited{};
+		isVisited[0] = true;
+		for (index_t i = 1; i < 6; ++i)
+			if (m_adjacency[0][i] != 0)
+				isVisited[i] = true;
+
+		std::vector< index_t> remained;
+		for (index_t i = 0; i < 6; ++i)
+		{
+			if (isVisited[i] == false)
+			{
+				remained.push_back(i);
+			}
+		}
+
+		//першій вершині не були інцидентні 3 ребра
+		if (remained.size() != 2) return false;
+
+		// досліджуємо 2 вершини що залишилися
+		if (m_adjacency[remained[0]][remained[1]] != 0) return false;
+
+		badsub = new std::vector<Vertex>(m_vertex);
+
+		return true;
+	}
 };

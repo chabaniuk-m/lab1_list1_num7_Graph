@@ -23,9 +23,12 @@ void test1()
 		graph.addEdge(2, 4, 6);
 		graph.addEdge(2, 3, 5);
 		graph.addEdge(3, 4, 2);
+		graph.addEdge(3, 6, 9);
 		graph.addEdge(4, 5, 3);
+		graph.addEdge(4, 6, 10);
 		graph.addEdge(5, 6, 2);
 	}
+	std::cout << "Чи планарний граф? " << ((graph.isPlanar()) ? "Так\n" : "Ні\n");
 	std::cout << "Зв'язки кожної вершини з іншими:\n";
 	graph.show();
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
@@ -179,10 +182,34 @@ void test6()
 	}
 	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
 	std::cout << "Чи є граф деревом? " << ((graph.isTree()) ? "Так\n" : "Ні\n");
+	std::cout << "Чи планарний граф? " << ((graph.isPlanar()) ? "Так\n" : "Ні\n");
+}
+void test7()
+{
+	//граф К(3, 3)
+	Graph graph;
+	{
+		graph.addVertex(Vertex('A'));	// index - 0
+		graph.addVertex(Vertex('B'));	// index - 1
+		graph.addVertex(Vertex('C'));	// index - 2
+		graph.addVertex(Vertex('D'));	// index - 3
+		graph.addVertex(Vertex('E'));	// index - 4
+		graph.addVertex(Vertex('F'));	// index - 5
+		graph.addEdge(0, 3);
+		graph.addEdge(0, 4);
+		graph.addEdge(0, 5);
+		graph.addEdge(1, 3);
+		graph.addEdge(1, 4);
+		graph.addEdge(1, 5);
+		graph.addEdge(2, 3);
+		graph.addEdge(2, 4);
+		graph.addEdge(2, 5);
+	}
+	std::cout << "K(3,3) ? " << ((graph.is_bipartity_3_3()) ? "Yes\n" : "No\n");
 }
 
 int main()
 {
 	SetConsoleOutputCP(1251);
-	test5();
+	test1();
 }
