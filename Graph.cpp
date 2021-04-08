@@ -266,6 +266,20 @@ bool Graph::isAcyclic() const
 	return edgesNumber == getEdgeNumber();
 }
 
+//чи є графом ейлера
+
+bool Graph::isEulerGraph() const
+{
+	for (size_t i = 0; i < m_vertex.size(); i++)
+	{
+		//граф буде Ейлеровим тоді і тільки тоді коли степінь кожної вершини парна
+		if (getDegree(i) % 2 != 0)
+			return false;
+	}
+
+	return true;
+}
+
 auto Graph::connectivityComponents() const -> size_t
 {
 	std::vector<bool> isVisited(m_vertex.size(), false);

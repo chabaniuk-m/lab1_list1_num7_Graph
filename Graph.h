@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <array>
+#include <cassert>
 #include <algorithm>
 #include <iostream>
 
@@ -47,6 +48,8 @@ public:
 	bool isTree() const;
 	//чи є ациклічним
 	bool isAcyclic() const;
+	//чи є графом ейлера
+	bool isEulerGraph() const;
 	//компоненти зв'язності
 	bool isPlanar(std::vector<Vertex> *badsub = nullptr) const
 	{
@@ -300,6 +303,20 @@ private:
 		}
 
 		return subgraphs;
+	}
+
+	auto getDegree(const int idx) const -> int
+	{
+		assert(0 <= idx && idx < m_vertex.size());
+
+		int degree{ 0 };
+		for (auto& i : m_adjacency[idx])
+		{
+			if (i != 0)
+				++degree;
+		}
+		
+		return degree;
 	}
 
 	//temp

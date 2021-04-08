@@ -34,6 +34,7 @@ void test1()
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
+	std::cout << "Чи є Ейлеровим графом? " << ((graph.isEulerGraph()) ? "Так" : "Ні") << std::endl;
 	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
 	std::cout << "Чи є граф деревом? " << ((graph.isTree()) ? "Так\n" : "Ні\n");
 	std::cout << "Матриця суміжності:\n";
@@ -75,6 +76,7 @@ void test2()
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
+	std::cout << "Чи є Ейлеровим графом? " << ((graph.isEulerGraph()) ? "Так" : "Ні") << std::endl;
 	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
 	std::cout << "Обхід у глибину:\n";
 	graph.passInDepth();
@@ -103,6 +105,7 @@ void test3()
 	graph.show();
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
+	std::cout << "Чи є Ейлеровим графом? " << ((graph.isEulerGraph()) ? "Так" : "Ні") << std::endl;
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
 	std::cout << "Граф містить цикли? " << ((!graph.isAcyclic()) ? "Так\n" : "Ні\n");
 	std::cout << "Обхід у ширину:\n";
@@ -195,21 +198,28 @@ void test7()
 		graph.addVertex(Vertex('D'));	// index - 3
 		graph.addVertex(Vertex('E'));	// index - 4
 		graph.addVertex(Vertex('F'));	// index - 5
-		graph.addEdge(0, 3);
+		graph.addEdge(0, 1);
+		graph.addEdge(0, 2);
 		graph.addEdge(0, 4);
 		graph.addEdge(0, 5);
-		graph.addEdge(1, 3);
+		graph.addEdge(1, 2);
 		graph.addEdge(1, 4);
 		graph.addEdge(1, 5);
 		graph.addEdge(2, 3);
 		graph.addEdge(2, 4);
 		graph.addEdge(2, 5);
+		graph.addEdge(3, 4);
+		graph.addEdge(4, 5);
+
 	}
+	
+	std::cout << "Чи планарний граф? " << ((graph.isPlanar()) ? "Так\n" : "Ні\n");
 	std::cout << "K(3,3) ? " << ((graph.is_bipartity_3_3()) ? "Yes\n" : "No\n");
+	std::cout << "Чи є Ейлеровим графом? " << ((graph.isEulerGraph()) ? "Так" : "Ні") << std::endl;
 }
 
 int main()
 {
 	SetConsoleOutputCP(1251);
-	test1();
+	test7();
 }
