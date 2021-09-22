@@ -1,4 +1,4 @@
-//test Graph
+//test LinkedGraph
 #include "Graph.h"
 #include <Windows.h>
 

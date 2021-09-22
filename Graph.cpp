@@ -609,3 +609,33 @@ auto Graph::connectivityComponents(int) const -> std::vector<Graph>
 
 	return res;
 }
+
+//створює граф з n ізольованих вершин
+
+LinkedGraph::LinkedGraph(int n)					//створює граф з n ізольованих вершин
+	: first(nullptr), count(n)
+{
+	int i = 0;
+	if (n-- > 0)
+	{
+		auto node = first = new LinkedGraph::Node(i++);
+
+		while (n-- > 0)
+			node = node->next = new LinkedGraph::Node(i++);
+	}
+}
+
+auto LinkedGraph::row(int row) const -> Node*
+{
+	if (!(0 <= row && row < count))
+		return nullptr;
+	else
+	{
+		auto node = first;
+
+		while (row-- >= 0)
+			node = node->next;
+
+		return node;
+	}
+}
