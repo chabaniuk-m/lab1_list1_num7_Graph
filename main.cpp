@@ -71,8 +71,6 @@ void test2()
 		graph.addEdge(5, 7);
 		graph.addEdge(9, 10);
 	}
-	std::cout << "Зв'язки кожної вершини з іншими\n";
-	graph.show();
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
 	std::cout << "Граф зв'язний? " << ((graph.isConnected()) ? "Так\n" : "Ні\n");
@@ -101,8 +99,6 @@ void test3()
 		graph.addEdge(1, 3);
 		graph.addEdge(3, 0);
 	}
-	std::cout << "Зв'язки кожної вершини з іншими\n";
-	graph.show();
 	std::cout << "Кількість вершин: " << graph.getVertexNumber() << "\n";
 	std::cout << "Кількість ребер: " << graph.getEdgeNumber() << "\n";
 	std::cout << "Чи є Ейлеровим графом? " << ((graph.isEulerGraph()) ? "Так" : "Ні") << std::endl;
@@ -221,5 +217,5 @@ void test7()
 int main()
 {
 	SetConsoleOutputCP(1251);
-	test7();
+	test1();
 }
