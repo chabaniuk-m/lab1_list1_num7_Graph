@@ -72,7 +72,26 @@ private:
 		bool is_bipartity_3_3(std::vector<Vertex>* badsub = nullptr) const;
 };
 
-class LinkedList;
+//однозв'язний список
+class LinkedList
+{
+public:
+	struct Node
+	{
+		int data;
+		Node* next = nullptr;
+
+		Node(int v, Node* n = nullptr)
+			: data(v), next(n) {}
+	};
+
+	void insert(int data)
+	{
+		head = new Node(data, head);
+	}
+
+	Node* head = nullptr;
+};
 
 //граф на основі структари суміжності
 class LinkedGraph
@@ -95,25 +114,4 @@ public:
 
 	Node* first;
 	const int count;
-};
-
-//однозв'язний список
-class LinkedList
-{
-public:
-	struct Node
-	{
-		int data;
-		Node* next = nullptr;
-
-		Node(int v, Node* n = nullptr)
-			: data(v), next(n) {}
-	};
-
-	void insert(int data)
-	{
-		head = new Node(data, head);
-	}
-
-	Node* head = nullptr;
 };
